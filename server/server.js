@@ -3,8 +3,11 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Feedback = require("./feedbackschema");
+const cors = require('cors')
 require("dotenv/config");
 
+
+app.use(cors());
 // setting json for requests/responses
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

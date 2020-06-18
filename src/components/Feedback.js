@@ -1,19 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { UserFeedback } from "./UserFeedback";
 import { Form } from "./Form";
 import axios from "axios";
-//add axios GET and POST
 
 export const Feedback = (props) => {
+  const [Feedbacksdb, setFeedbacksdb] = useState([]);
+  useEffect(() => {
+    axios
+      .get("/api/feedback")
+      .then((res) => {
+        setFeedbacksdb(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  console.log(Feedbacksdb);
   return (
     <div>
-      <Form props={props} />
-
+      <Form props={props} feedbacksdb={Feedbacksdb} upadteFeedabcks={setFeedbacksdb} />
       {/* Here we add feedbacks that already exist in db */}
-
-      {/* {feedbacks.map((feedback) => 
-        <UserFeedback feedbackinfo={feedback} key={feedback._id} />
-      )} */}
+      {Feedbacksdb.map((feedback) => {
+        return <UserFeedback feedbackinfo={feedback} key={feedback._id} />;
+      })}
     </div>
   );
 };
